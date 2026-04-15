@@ -1,6 +1,6 @@
 # bods-aml-ai
 
-Transform [Beneficial Ownership Data Standard (BODS) v0.4](https://standard.openownership.org/en/0.4.0/) data into [Google AML AI](https://docs.cloud.google.com/financial-services/anti-money-laundering/docs/reference/schemas/aml-input-data-model) input format.
+Transform [Beneficial Ownership Data Standard (BODS) v0.4](https://standard.openownership.org/en/0.4.0/) data into [Google Anti Money Laundering AI](https://docs.cloud.google.com/financial-services/anti-money-laundering/docs/reference/schemas/aml-input-data-model) input format.
 
 ## Why this exists
 
