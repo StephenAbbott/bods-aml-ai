@@ -1,0 +1,256 @@
+[
+  {
+    "statementId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "statementDate": "2024-06-15",
+    "recordId": "gb-coh-12345678",
+    "recordType": "entity",
+    "recordStatus": "new",
+    "recordDetails": {
+      "isComponent": false,
+      "entityType": {
+        "type": "registeredEntity"
+      },
+      "name": "Acme Holdings Ltd",
+      "jurisdiction": {
+        "code": "GB",
+        "name": "United Kingdom"
+      },
+      "identifiers": [
+        {
+          "id": "12345678",
+          "scheme": "GB-COH",
+          "schemeName": "Companies House"
+        }
+      ],
+      "addresses": [
+        {
+          "type": "registered",
+          "address": "10 Downing Street, London",
+          "postCode": "SW1A 2AA",
+          "country": {
+            "code": "GB",
+            "name": "United Kingdom"
+          }
+        }
+      ],
+      "foundingDate": "2015-03-20"
+    },
+    "publicationDetails": {
+      "publicationDate": "2024-06-15",
+      "bodsVersion": "0.4",
+      "publisher": {
+        "name": "Example Publisher"
+      }
+    }
+  },
+  {
+    "statementId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    "statementDate": "2024-06-15",
+    "recordId": "vg-fsc-98765",
+    "recordType": "entity",
+    "recordStatus": "new",
+    "recordDetails": {
+      "isComponent": false,
+      "entityType": {
+        "type": "registeredEntity"
+      },
+      "name": "Caribbean Investments BVI Ltd",
+      "jurisdiction": {
+        "code": "VG",
+        "name": "British Virgin Islands"
+      },
+      "identifiers": [
+        {
+          "id": "98765",
+          "scheme": "VG-FSC",
+          "schemeName": "BVI Financial Services Commission"
+        }
+      ],
+      "addresses": [
+        {
+          "type": "registered",
+          "address": "Tortola, Road Town",
+          "country": {
+            "code": "VG",
+            "name": "British Virgin Islands"
+          }
+        }
+      ],
+      "foundingDate": "2010-08-12"
+    },
+    "publicationDetails": {
+      "publicationDate": "2024-06-15",
+      "bodsVersion": "0.4",
+      "publisher": {
+        "name": "Example Publisher"
+      }
+    }
+  },
+  {
+    "statementId": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+    "statementDate": "2024-06-15",
+    "recordId": "person-jane-smith-1980",
+    "recordType": "person",
+    "recordStatus": "new",
+    "recordDetails": {
+      "isComponent": false,
+      "personType": "knownPerson",
+      "names": [
+        {
+          "type": "individual",
+          "fullName": "Jane Smith",
+          "givenName": "Jane",
+          "familyName": "Smith"
+        }
+      ],
+      "nationalities": [
+        {
+          "code": "GB",
+          "name": "United Kingdom"
+        }
+      ],
+      "birthDate": "1980-05-14",
+      "addresses": [
+        {
+          "type": "registered",
+          "address": "42 Baker Street, London",
+          "postCode": "W1U 3BW",
+          "country": {
+            "code": "GB",
+            "name": "United Kingdom"
+          }
+        }
+      ]
+    },
+    "publicationDetails": {
+      "publicationDate": "2024-06-15",
+      "bodsVersion": "0.4",
+      "publisher": {
+        "name": "Example Publisher"
+      }
+    }
+  },
+  {
+    "statementId": "d4e5f6a7-b8c9-0123-defa-234567890123",
+    "statementDate": "2024-06-15",
+    "recordId": "person-hans-mueller-1975",
+    "recordType": "person",
+    "recordStatus": "new",
+    "recordDetails": {
+      "isComponent": false,
+      "personType": "knownPerson",
+      "names": [
+        {
+          "type": "individual",
+          "fullName": "Hans Mueller",
+          "givenName": "Hans",
+          "familyName": "Mueller"
+        }
+      ],
+      "nationalities": [
+        {
+          "code": "DE",
+          "name": "Germany"
+        }
+      ],
+      "birthDate": "1975-11-03"
+    },
+    "publicationDetails": {
+      "publicationDate": "2024-06-15",
+      "bodsVersion": "0.4",
+      "publisher": {
+        "name": "Example Publisher"
+      }
+    }
+  },
+  {
+    "statementId": "e5f6a7b8-c9d0-1234-efab-345678901234",
+    "statementDate": "2024-06-15",
+    "recordId": "rel-jane-acme",
+    "recordType": "relationship",
+    "recordStatus": "new",
+    "recordDetails": {
+      "isComponent": false,
+      "subject": "gb-coh-12345678",
+      "interestedParty": "person-jane-smith-1980",
+      "interests": [
+        {
+          "type": "shareholding",
+          "directOrIndirect": "direct",
+          "beneficialOwnershipOrControl": true,
+          "share": {
+            "exact": 60.0
+          },
+          "startDate": "2015-03-20"
+        }
+      ]
+    },
+    "publicationDetails": {
+      "publicationDate": "2024-06-15",
+      "bodsVersion": "0.4",
+      "publisher": {
+        "name": "Example Publisher"
+      }
+    }
+  },
+  {
+    "statementId": "f6a7b8c9-d0e1-2345-fabc-456789012345",
+    "statementDate": "2024-06-15",
+    "recordId": "rel-bvi-acme",
+    "recordType": "relationship",
+    "recordStatus": "new",
+    "recordDetails": {
+      "isComponent": false,
+      "subject": "gb-coh-12345678",
+      "interestedParty": "vg-fsc-98765",
+      "interests": [
+        {
+          "type": "shareholding",
+          "directOrIndirect": "direct",
+          "beneficialOwnershipOrControl": false,
+          "share": {
+            "exact": 40.0
+          },
+          "startDate": "2018-01-10"
+        }
+      ]
+    },
+    "publicationDetails": {
+      "publicationDate": "2024-06-15",
+      "bodsVersion": "0.4",
+      "publisher": {
+        "name": "Example Publisher"
+      }
+    }
+  },
+  {
+    "statementId": "a7b8c9d0-e1f2-3456-abcd-567890123456",
+    "statementDate": "2024-06-15",
+    "recordId": "rel-hans-bvi",
+    "recordType": "relationship",
+    "recordStatus": "new",
+    "recordDetails": {
+      "isComponent": false,
+      "subject": "vg-fsc-98765",
+      "interestedParty": "person-hans-mueller-1975",
+      "interests": [
+        {
+          "type": "shareholding",
+          "directOrIndirect": "direct",
+          "beneficialOwnershipOrControl": true,
+          "share": {
+            "exact": 100.0
+          },
+          "startDate": "2010-08-12"
+        }
+      ]
+    },
+    "publicationDetails": {
+      "publicationDate": "2024-06-15",
+      "bodsVersion": "0.4",
+      "publisher": {
+        "name": "Example Publisher"
+      }
+    }
+  }
+]

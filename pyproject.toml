@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bods-aml-ai"
+version = "0.1.0"
+description = "Transform BODS v0.4 beneficial ownership data into Google AML AI input format"
+requires-python = ">=3.9"
+dependencies = [
+    "click>=8.1",
+    "pycountry>=24.6",
+    "python-dateutil>=2.8",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "libcovebods>=0.14",
+]
+
+[project.scripts]
+bods-aml-ai = "bods_aml_ai.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
