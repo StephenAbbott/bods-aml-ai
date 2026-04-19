@@ -195,6 +195,11 @@ class BODSRelationshipStatement:
     record_id: str | None = None
     subject: str | None = None  # recordId of the entity being owned/controlled
     interested_party: str | None = None  # recordId of the owner/controller
+    # Populated when interestedParty is an inline unspecifiedRecord
+    # (declared-unknown UBO) rather than a recordId string. Per FATF, a
+    # declared-unknown UBO is itself a risk signal, not an absence of data.
+    interested_party_reason: str | None = None
+    interested_party_description: str | None = None
     interests: list[BODSInterest] = field(default_factory=list)
     is_component: bool = False
     component_statement_ids: list[str] = field(default_factory=list)
@@ -203,11 +208,22 @@ class BODSRelationshipStatement:
     @classmethod
     def from_dict(cls, data: dict) -> BODSRelationshipStatement:
         details = data.get("recordDetails", {})
+        raw_ip = details.get("interestedParty")
+        ip_id: str | None = None
+        ip_reason: str | None = None
+        ip_description: str | None = None
+        if isinstance(raw_ip, str):
+            ip_id = raw_ip
+        elif isinstance(raw_ip, dict):
+            ip_reason = raw_ip.get("reason")
+            ip_description = raw_ip.get("description")
         return cls(
             statement_id=data.get("statementId", ""),
             record_id=data.get("recordId"),
             subject=details.get("subject"),
-            interested_party=details.get("interestedParty"),
+            interested_party=ip_id,
+            interested_party_reason=ip_reason,
+            interested_party_description=ip_description,
             interests=[BODSInterest.from_dict(i) for i in details.get("interests", [])],
             is_component=details.get("isComponent", False),
             component_statement_ids=details.get("componentStatementIDs", []),

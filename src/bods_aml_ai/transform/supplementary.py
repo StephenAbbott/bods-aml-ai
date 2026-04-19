@@ -73,15 +73,34 @@ def transform_relationships_to_supplementary(
 
     # Pass 1: per-relationship attributes on the interested party
     for rel in relationships:
+        # Skip component statements (intermediate chain pieces)
+        if rel.is_component:
+            continue
+
+        # Declared-unknown UBO (inline unspecifiedRecord) — preserve the
+        # reason as an attribute on the subject. Silently dropping these
+        # understates opacity risk per FATF guidance.
+        if rel.subject and not rel.interested_party and rel.interested_party_reason:
+            validity = to_timestamp(rel.publication_date) or validity_start_time
+            rows.append(_make_row(
+                party_id=rel.subject,
+                data_id="bo_has_declared_unknown_owner",
+                value=1.0,
+                validity=validity,
+            ))
+            rows.append(_make_row(
+                party_id=rel.subject,
+                data_id=f"bo_unspecified_reason_{rel.interested_party_reason}",
+                value=1.0,
+                validity=validity,
+            ))
+            continue
+
         if not rel.subject or not rel.interested_party:
             logger.warning(
                 "Skipping relationship %s: missing subject or interestedParty",
                 rel.statement_id,
             )
-            continue
-
-        # Skip component statements (intermediate chain pieces)
-        if rel.is_component:
             continue
 
         validity = to_timestamp(rel.publication_date) or validity_start_time
