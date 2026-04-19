@@ -19,6 +19,7 @@ dev = [
     "pytest-cov>=4.0",
     "libcovebods>=0.14",
     "bods-fixtures @ git+https://github.com/StephenAbbott/bods-fixtures.git@v0.1.0",
+    "pytest-bods-fixtures @ git+https://github.com/StephenAbbott/pytest-bods-fixtures.git@v0.1.0",
 ]
 
 [project.scripts]

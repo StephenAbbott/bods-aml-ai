@@ -12,6 +12,10 @@ AML-specific concerns tested here:
   dropped, per FATF guidance — anonymity is itself a risk signal.
 - circular ownership must terminate and emit supplementary data for each
   leg of the cycle.
+
+The ``bods_fixture`` parameter is auto-parametrized by the
+pytest-bods-fixtures plugin over every case in the pack. Tests that need
+a specific case use ``load(name)`` directly.
 """
 
 from __future__ import annotations
@@ -19,13 +23,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
-from bods_fixtures import list_cases, load
+from bods_fixtures import Fixture, load
 
 from bods_aml_ai.config import TransformConfig
 from bods_aml_ai.pipeline import AMLPipeline
-
-ALL_CASES = list_cases()
 
 
 def _write_fixture_to_tmp(fixture_statements: list[dict], tmp_path: Path) -> Path:
@@ -52,33 +53,29 @@ def _read_ndjson(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
 
-@pytest.mark.parametrize("name", ALL_CASES)
-def test_pipeline_does_not_raise(name, tmp_path):
+def test_pipeline_does_not_raise(bods_fixture: Fixture, tmp_path: Path) -> None:
     """Every canonical fixture must pass through ingestion and all four
     transform stages without raising."""
-    fixture = load(name)
-    _run_pipeline(fixture.statements, tmp_path)
+    _run_pipeline(bods_fixture.statements, tmp_path)
 
 
-@pytest.mark.parametrize("name", ALL_CASES)
-def test_statement_counts_match_fixture(name, tmp_path):
+def test_statement_counts_match_fixture(bods_fixture: Fixture, tmp_path: Path) -> None:
     """Ingestion must classify every record correctly — if counts diverge,
     something in the fixture is being dropped or misrouted."""
-    fixture = load(name)
-    pipeline = _run_pipeline(fixture.statements, tmp_path)
+    pipeline = _run_pipeline(bods_fixture.statements, tmp_path)
 
     expected = {
-        "entity": len(fixture.by_record_type("entity")),
-        "person": len(fixture.by_record_type("person")),
-        "relationship": len(fixture.by_record_type("relationship")),
+        "entity": len(bods_fixture.by_record_type("entity")),
+        "person": len(bods_fixture.by_record_type("person")),
+        "relationship": len(bods_fixture.by_record_type("relationship")),
     }
     actual = {k: v for k, v in pipeline.statement_counts.items() if k != "total"}
     assert actual == expected, (
-        f"{name}: ingestion counts {actual} != fixture counts {expected}"
+        f"{bods_fixture.name}: ingestion counts {actual} != fixture counts {expected}"
     )
 
 
-def test_direct_ownership_produces_consumer_and_company_parties(tmp_path):
+def test_direct_ownership_produces_consumer_and_company_parties(tmp_path: Path) -> None:
     """The baseline UBO fixture must emit at least one CONSUMER (person) and
     one COMPANY (entity) Party row."""
     fixture = load("core/01-direct-ownership")
@@ -90,7 +87,7 @@ def test_direct_ownership_produces_consumer_and_company_parties(tmp_path):
     assert "COMPANY" in party_types, f"no COMPANY in party types: {party_types}"
 
 
-def test_direct_ownership_supplementary_has_ownership_percentage(tmp_path):
+def test_direct_ownership_supplementary_has_ownership_percentage(tmp_path: Path) -> None:
     """Ownership share must surface as a bo_ownership_pct_* attribute on the
     owner's PartySupplementaryData row — otherwise the AML model loses the
     most load-bearing BO signal."""
@@ -109,7 +106,7 @@ def test_direct_ownership_supplementary_has_ownership_percentage(tmp_path):
     )
 
 
-def test_circular_ownership_produces_supplementary_rows_for_both_edges(tmp_path):
+def test_circular_ownership_produces_supplementary_rows_for_both_edges(tmp_path: Path) -> None:
     """A↔B ownership cycle must terminate and emit bo_ownership_pct attrs
     for both legs. A missing leg indicates either graph-walk deduplication
     or silent skip of the reverse edge."""
@@ -128,7 +125,7 @@ def test_circular_ownership_produces_supplementary_rows_for_both_edges(tmp_path)
     )
 
 
-def test_anonymous_interested_party_is_not_silently_dropped(tmp_path):
+def test_anonymous_interested_party_is_not_silently_dropped(tmp_path: Path) -> None:
     """Declared-unknown UBO (inline `unspecifiedReason`) must leave a trace
     in the AML output — either a supplementary row flagging the opacity or
     the reason code surfaced somewhere. FATF treats declared-unknown UBOs
