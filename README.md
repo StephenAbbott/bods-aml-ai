@@ -207,6 +207,20 @@ bq load --source_format=NEWLINE_DELIMITED_JSON \
 pytest tests/ -v
 ```
 
+### Conformance against the shared BODS v0.4 fixture pack
+
+The test suite includes `tests/test_bods_fixtures_conformance.py`, which runs
+the full AML AI pipeline against every case in the canonical
+[**bods-v04-fixtures**](https://pypi.org/project/bods-v04-fixtures/) pack via the
+[**pytest-bods-v04-fixtures**](https://pypi.org/project/pytest-bods-v04-fixtures/)
+plugin. Every test is parametrized by fixture name so a failure like
+`[core/01-direct-ownership]` points straight at the offending case.
+
+AML-specific conformance checks include: declared-unknown UBOs (inline
+`unspecifiedReason`) must not be silently dropped — anonymity is itself a
+FATF-relevant risk signal — and circular ownership must terminate and emit
+supplementary data for each leg of the cycle.
+
 ## Project structure
 
 ```
