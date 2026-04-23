@@ -2,6 +2,8 @@
 
 Transform [Beneficial Ownership Data Standard (BODS) v0.4](https://standard.openownership.org/en/0.4.0/) data into [Google Anti Money Laundering AI](https://docs.cloud.google.com/financial-services/anti-money-laundering/docs/reference/schemas/aml-input-data-model) input format.
 
+Part of the [BODS Interoperability Toolkit](https://github.com/StephenAbbott/bods-interoperability-toolkit).
+
 ## Why this exists
 
 Google's Anti Money Laundering AI scores party-level risk based on transaction patterns, account holdings, and historical investigation outcomes. Beneficial ownership data — who ultimately owns and controls companies — is a critical input for AML risk assessment, but Google's AML AI data model has **no native concept of party-to-party ownership relationships**.
